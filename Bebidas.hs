@@ -19,13 +19,15 @@ reduceHabilidad :: String -> Bool
 reduceHabilidad habilidad = length habilidad <= 6
 
 cerveza :: Int -> Bebida
-cerveza porcentaje persona = persona {reflejos = reflejos persona - porcentaje, habilidades = tail (habilidades persona)}
+cerveza porcentaje persona = cambiarReflejos (-porcentaje) (persona {habilidades = tail (habilidades persona)})
 
 gaseosa :: Int -> Bebida
 gaseosa azucar = cambiarReflejos (div azucar 2)
 
 aguaMineral :: Bebida
 aguaMineral persona = persona
+
+teDeTilo = (\persona -> cambiarReflejos (-20) persona)
 
 --Punto c: modelar a Ana según lo que pide el enunciado
 ana = Persona "Ana" ["jugar al poker", "cantar"] 20 [cerveza 3, gaseosa 5]
