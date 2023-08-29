@@ -65,12 +65,13 @@ enQueCasaQueda(hermione,gryffindor).
 
 cadenaDeAmistades(Magos):-
     todosAmistosos(Magos),
-    cadenaDeCasas(Magos).
+    %cadenaDeCasas(Magos).
+    cadenaDeCasasNoRecursiva(Magos).
 
 todosAmistosos(Magos):-
     forall(member(Mago,Magos), esAmistoso(Mago)).
 
-cadenaDeCasas([Mago1,Mago2] | OtrosMagos):-
+cadenaDeCasas([Mago1,Mago2 | OtrosMagos]):-
     puedeIrA(Mago1,Casa),
     puedeIrA(Mago2,Casa),
     cadenaDeCasas([Mago2 | OtrosMagos]).
@@ -78,6 +79,15 @@ cadenaDeCasas([Mago1,Mago2] | OtrosMagos):-
 cadenaDeCasas([_]).
 
 cadenaDeCasas([]).
+
+cadenaDeCasasNoRecursiva(Magos):-
+    forall(consecutivos(Mago1,Mago2,Magos), (puedeIrA(Mago1,Casa), puedeIrA(Mago2, Casa))).
+
+consecutivos(Anterior, Siguiente, Lista):-
+    nth1(IndiceAnterior, Lista, Anterior),
+    IndiceSiguiente is IndiceAnterior + 1,
+    nth1(IndiceSiguiente, Lista, Siguiente).
+
 %%%%%%%%%%% Parte 2
 
 esDe(hermione, gryffindor).
@@ -96,7 +106,7 @@ accion(hermione,resta(irABibliotecaRestringida)).
 accion(draco,resta(irAMazmorras)).
 
 % Punto 1
-esBuenAlumno(Mago,Accion):-
+esBuenAlumno(Mago):-
     esDe(Mago,_),
     accion(Mago,suma(_)).
 
