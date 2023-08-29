@@ -1,4 +1,4 @@
-%%%%%%%%%%% Parte 1
+%%%%%%%%%% Parte 1
 %mago(Mago,Sangre)
 mago(harry,mestizo).
 mago(draco,puro).
@@ -96,29 +96,23 @@ esDe(harry, gryffindor).
 esDe(draco, slytherin).
 esDe(luna, ravenclaw).
 
-accion(harry,resta(fueraDeCama)).
-accion(harry,resta(irAlTercerPiso)).
-accion(harry,resta(irAlBosque)).
-accion(harry,suma(ganarleAVoldy)).
-accion(ron,suma(ganarEnAjedrez)).
-accion(hermione,resta(irAlTercerPiso)).
-accion(hermione,resta(irABibliotecaRestringida)).
-accion(draco,resta(irAMazmorras)).
+accion(harry,resta(fueraDeCama)).       % resta 50
+accion(harry,resta(irAlTercerPiso)).    % resta 75
+accion(harry,resta(irAlBosque)).        % resta 50
+accion(harry,suma(ganarleAVoldy)).      % suma 60
+accion(ron,suma(ganarEnAjedrez)).       % suma 50
+accion(hermione,resta(irAlTercerPiso)). % resta 75
+accion(hermione,resta(irASeccionRestringida)).  % resta 10
+accion(draco,resta(irAMazmorras)).              % no resta puntos
 
 % Punto 1
 esBuenAlumno(Mago):-
     esDe(Mago,_),
     accion(Mago,suma(_)).
 
-% Punto 2
 accionRecurrente(Accion):-
     accion(Mago,Accion),
     accion(OtroMago,Accion),
     Mago \= OtroMago.
 
-% Punto 3
-/*ganadorDeLaCopa(Casa):-
-    esDe(Mago,Casa),
-    puntosTotales(Casa).*/
-
-%puntosTotales(Casa):-
+% Punto 2
