@@ -1,4 +1,4 @@
-%cocina(Nombre,Plato,Puntos)
+cocina(Nombre,Plato,Puntos)
 cocina(mariano, principal(ñoquis,50), 80).
 cocina(julia, principal(pizza,100), 60).
 cocina(hernan, postre(panqueque, dulceDeLeche,100), 60).
@@ -76,4 +76,5 @@ esRecomendable(Cocinero,OtroCocinero):-
     amigo(Cocinero,OtroCocinero).
 
 esRecomendable(Cocinero,OtroCocinero):-
-    not(amigo(Cocinero,OtroCocinero)),amigo(OtroCocinero,_).
+    not(amigo(Cocinero,OtroCocinero)),
+    amigo(OtroCocinero,_).
