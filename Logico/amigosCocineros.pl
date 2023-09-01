@@ -1,5 +1,5 @@
-cocina(Nombre,Plato,Puntos)
-cocina(mariano, principal(ñoquis,50), 80).
+%cocina(Nombre,Plato,Puntos)
+cocina(mariano, principal(nioquis,50), 80).
 cocina(julia, principal(pizza,100), 60).
 cocina(hernan, postre(panqueque, dulceDeLeche,100), 60).
 cocina(hernan, postre(trufas, dulceDeLeche,60), 80).
@@ -41,8 +41,7 @@ cumpleCondiciones(principal(_,Cantidad)):-
 
 % Punto 2:saber si un cocinero no cocina postres
 soloSalado(Cocinero):-
-    cocina(Cocinero,Plato,_),
-    not(esPostre(Plato)).
+    forall(cocina(Cocinero,Plato,_), not(esPostre(Plato))).
 
 esPostre(postre(_,_,_)).
 
@@ -50,6 +49,10 @@ esPostre(postre(_,_,_)).
 sumatoriaDePuntos(Cocinero,Puntaje):-
     findall(Puntos, cocina(Cocinero,_,Puntos),ListaPuntos),
     sumlist(ListaPuntos,Puntaje).
+
+tieneUnaGranFama(Cocinero):-
+    findall(Cocinero, sumatoriaDePuntos(Cocinero,_), ListaCocineros),
+    max_member(Cocinero,ListaCocineros).
 
 % Punto 4: saber si un cocinero no es saludable (que tenga sólo 1 plato saludable y que todos los demás no lo sean)
 noEsSaludable(Cocinero):-
@@ -61,20 +64,21 @@ noEsSaludable(Cocinero):-
 noUsaIngredientesPopulares(Cocinero):-
     forall(cocina(Cocinero,Plato,_), not(tieneIngredientesPopulares(Plato))).
 
+%noTieneIngredientesPopulares(principal(_,_)). Para este caso no me interesa porque no hay ingredientes para platos principales.
+
 tieneIngredientesPopulares(postre(_,Ingrediente,_)):-
     popular(Ingrediente).
 
-tieneIngredientesPopulares(entrada(_,Ingredientes,_)):-
-    findall(Ingrediente, popular(Ingrediente), Ingredientes).
+tieneIngredientesPopulares(entrada(_,ListaIngredientes,_)):-
+    popular(Ingrediente), member(Ingrediente,ListaIngredientes).
 
-% Punto 7: saber si un cocinero puede ser recomendado por otro
+% Punto 7: saber si un cocinero puede ser recomendado por otro (esto se cumple si es saludable y además si es amigo de otro
+% cocinero o hay algún otro cocinero que sea amigo de otro cocinero)
 esRecomendadoPorColega(Cocinero,OtroCocinero):-
     not(noEsSaludable(Cocinero)),
-    esRecomendable(Cocinero,OtroCocinero).
-
-esRecomendable(Cocinero,OtroCocinero):-
     amigo(Cocinero,OtroCocinero).
 
-esRecomendable(Cocinero,OtroCocinero):-
-    not(amigo(Cocinero,OtroCocinero)),
+esRecomendadoPorColega(Cocinero,OtroCocinero):-
+    not(noEsSaludable(Cocinero)),
     amigo(OtroCocinero,_).
+
