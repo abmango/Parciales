@@ -1,5 +1,5 @@
-cocina(Nombre,Plato,Puntos)
-cocina(mariano, principal(ñoquis,50), 80).
+%cocina(Nombre,Plato,Puntos)
+cocina(mariano, principal(nioquis,50), 80).
 cocina(julia, principal(pizza,100), 60).
 cocina(hernan, postre(panqueque, dulceDeLeche,100), 60).
 cocina(hernan, postre(trufas, dulceDeLeche,60), 80).
@@ -40,9 +40,13 @@ cumpleCondiciones(principal(_,Cantidad)):-
     between(70, 90, Cantidad).
 
 % Punto 2:saber si un cocinero no cocina postres
+esCocinero(Cocinero):-
+    cocina(Cocinero,_,_).
+
 soloSalado(Cocinero):-
-    cocina(Cocinero,Plato,_),
-    not(esPostre(Plato)).
+    esCocinero(Cocinero),
+    not((cocina(Cocinero,Plato,_),
+    esPostre(Plato))).
 
 esPostre(postre(_,_,_)).
 
